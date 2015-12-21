@@ -1,0 +1,24 @@
+apply plugin: 'groovy'
+apply plugin: 'application'
+apply plugin: 'idea'
+
+project.ext {
+    configPath = "$rootProject.projectDir/config/"
+    dropwizardVersion = '0.8.2'
+    groovyVersion = '2.4.5'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile group: 'org.codehaus.groovy', name: 'groovy-all', version: groovyVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+}
+
+mainClassName = "com.playmore.exerciselog.ExerciseLogApplication"
+
+run {
+    args 'server', configPath + 'app_config.yml'
+}
