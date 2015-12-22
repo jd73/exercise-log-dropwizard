@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.ajoberstar:grgit:1.1.0'
+    }
+}
+
 plugins {
     id 'groovy'
     id 'application'
@@ -9,7 +19,12 @@ project.ext {
     configPath = "$rootProject.projectDir/config/"
     dropwizardVersion = '0.9.1'
     groovyVersion = '2.4.5'
+
+    git = org.ajoberstar.grgit.Grgit.open(file('.'))
 }
+
+String specifiedVersion = '0.1.0'
+version = "$specifiedVersion.${git.head().abbreviatedId}"
 
 repositories {
     mavenCentral()
@@ -24,6 +39,12 @@ dependencies {
 }
 
 mainClassName = "com.playmore.exerciselog.ExerciseLogApplication"
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "Gradle", "Implementation-Version": version)
+    }
+}
 
 run {
     args 'server', configPath + 'app_config.yml'
