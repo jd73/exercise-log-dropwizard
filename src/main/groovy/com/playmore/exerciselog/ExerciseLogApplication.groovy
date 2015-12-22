@@ -1,5 +1,6 @@
 package com.playmore.exerciselog
 
+import com.playmore.exerciselog.health.DefaultHealthCheck
 import com.playmore.exerciselog.resources.WorkoutResource
 import groovy.util.logging.Slf4j
 import io.dropwizard.Application
@@ -17,7 +18,8 @@ class ExerciseLogApplication extends Application<AppConfiguration> {
         log.info("Application name: {}", configuration.getAppName())
 
         //health checks
-
+        final DefaultHealthCheck healthCheck = new DefaultHealthCheck()
+        environment.healthChecks().register("default", healthCheck)
 
         // resources
         final WorkoutResource resource = new WorkoutResource(
