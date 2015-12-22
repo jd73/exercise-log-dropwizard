@@ -17,8 +17,6 @@ plugins {
 
 project.ext {
     configPath = "$rootProject.projectDir/config/"
-    dropwizardVersion = '0.9.1'
-    groovyVersion = '2.4.5'
 
     git = org.ajoberstar.grgit.Grgit.open(file('.'))
 }
@@ -32,10 +30,9 @@ repositories {
 }
 
 dependencies {
-	compile group: 'org.codehaus.groovy', name: 'groovy-all', version: groovyVersion
-    compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
-    compile group: 'io.dropwizard.metrics', name: 'metrics-core', version: '3.1.2'
-    compile group: 'io.dropwizard.metrics', name: 'metrics-healthchecks', version: '3.1.2'
+    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.5'
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: '0.9.1'
+    testCompile group: 'org.spockframework', name: 'spock-core', version: '1.0-groovy-2.4'
 }
 
 mainClassName = "com.playmore.exerciselog.ExerciseLogApplication"
