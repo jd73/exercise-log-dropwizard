@@ -6,8 +6,8 @@
 .idea/
 .git/
 .gradle/
-/build/
-/target/
-/gradle/
-/out/
+build/
+target/
+gradle/
+out/
 logs/*

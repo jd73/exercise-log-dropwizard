@@ -1,22 +1,28 @@
 package com.playmore.exerciselog
 
-import io.dropwizard.Application;
-import io.dropwizard.setup.Environment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory
+import com.playmore.exerciselog.resources.WorkoutResource
+import groovy.util.logging.Slf4j
+import io.dropwizard.Application
+import io.dropwizard.setup.Environment
 
+@Slf4j
 class ExerciseLogApplication extends Application<AppConfiguration> {
-
-    static final Logger LOGGER = LoggerFactory.getLogger(ExerciseLogApplication.class)
 
     static void main(final String[] args) throws Exception {
         new ExerciseLogApplication().run(args)
     }
 
     @Override
-    void run(final AppConfiguration configuration, final Environment environment)
-            throws Exception {
+    void run(final AppConfiguration configuration, final Environment environment) throws Exception {
+        log.info("Application name: {}", configuration.getAppName())
 
-        LOGGER.info("Application name: {}", configuration.getAppName())
+        //health checks
+
+
+        // resources
+        final WorkoutResource resource = new WorkoutResource(
+                '5x5 back squats'
+        )
+        environment.jersey().register(resource)
     }
 }
