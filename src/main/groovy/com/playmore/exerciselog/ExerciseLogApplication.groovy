@@ -1,10 +1,13 @@
 package com.playmore.exerciselog
 
 import com.playmore.exerciselog.health.DefaultHealthCheck
+import com.playmore.exerciselog.resources.ExerciseResource
 import com.playmore.exerciselog.resources.WorkoutResource
 import groovy.util.logging.Slf4j
 import io.dropwizard.Application
+import io.dropwizard.jdbi.DBIFactory
 import io.dropwizard.setup.Environment
+import org.skife.jdbi.v2.DBI
 
 @Slf4j
 class ExerciseLogApplication extends Application<AppConfiguration> {
@@ -17,14 +20,19 @@ class ExerciseLogApplication extends Application<AppConfiguration> {
     void run(final AppConfiguration configuration, final Environment environment) throws Exception {
         log.info("Application name: {}", configuration.getAppName())
 
-        //health checks
+        // database
+        DBI dbi = new DBIFactory().build(environment, configuration.getDataSourceFactory(), "db")
+
+        // health checks
         final DefaultHealthCheck healthCheck = new DefaultHealthCheck()
         environment.healthChecks().register("default", healthCheck)
 
         // resources
-        final WorkoutResource resource = new WorkoutResource(
+        final WorkoutResource workoutResource = new WorkoutResource(
                 '5x5 back squats'
         )
-        environment.jersey().register(resource)
+        environment.jersey().register(workoutResource)
+        environment.jersey().register(new ExerciseResource(dbi))
+
     }
 }

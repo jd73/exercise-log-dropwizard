@@ -30,9 +30,14 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.5'
-    compile group: 'io.dropwizard', name: 'dropwizard-core', version: '0.9.1'
-    testCompile group: 'org.spockframework', name: 'spock-core', version: '1.0-groovy-2.4'
+    compile 'org.codehaus.groovy:groovy-all:2.4.5'
+    compile 'io.dropwizard:dropwizard-core:0.9.1'
+    compile 'io.dropwizard:dropwizard-db:0.7.0'
+    compile 'io.dropwizard:dropwizard-jdbi:0.7.0'
+
+    runtime 'com.h2database:h2:1.4.178'
+
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 }
 
 mainClassName = "com.playmore.exerciselog.ExerciseLogApplication"
