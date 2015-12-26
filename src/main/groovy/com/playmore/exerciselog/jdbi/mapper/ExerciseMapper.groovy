@@ -9,6 +9,9 @@ import java.sql.SQLException
 
 public class ExerciseMapper implements ResultSetMapper<Exercise> {
     public Exercise map(int index, ResultSet r, StatementContext ctx) throws SQLException {
-        return new Exercise(r.getInt("id"), r.getString("name"))
+        return new Exercise(
+                id: r.getInt('id'),
+                name: r.getString('name')
+        )
     }
 }

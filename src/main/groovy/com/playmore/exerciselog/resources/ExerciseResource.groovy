@@ -2,9 +2,7 @@ package com.playmore.exerciselog.resources
 
 import com.codahale.metrics.annotation.Timed
 import com.playmore.exerciselog.api.Exercise
-import com.playmore.exerciselog.jdbi.ExerciseDao
-import org.skife.jdbi.v2.DBI
-import org.skife.jdbi.v2.Handle
+import com.playmore.exerciselog.jdbi.ExerciseStore
 
 import javax.ws.rs.GET
 import javax.ws.rs.POST
@@ -16,39 +14,27 @@ import javax.ws.rs.core.MediaType
 @Path("/exercise")
 @Produces(MediaType.APPLICATION_JSON)
 public class ExerciseResource {
-    private final ExerciseDao dao
+    private final ExerciseStore exerciseStore
 
-    public ExerciseResource(DBI dbi) {
-        this.dao = dbi.onDemand(ExerciseDao)
-
-        Handle handle
-        try {
-            handle = dbi.open()
-            handle.execute("create table exercise (id int primary key auto_increment, name varchar(100))")
-            List<String> exercies = ["Back Squat", "Bench Press", "Overhead Press", "Deadlift"]
-            exercies.each { String exercise ->
-                handle.insert("insert into exercise (name) values (?)", exercise)
-            }
-        } finally {
-            handle.close()
-        }
+    ExerciseResource(ExerciseStore exerciseStore) {
+        this.exerciseStore = exerciseStore
     }
 
     @Timed
     @POST @Path("/add")
     public Exercise add(String name) {
-        return find(dao.insert(name))
+        return find(exerciseStore.insert(name))
     }
 
     @Timed
     @GET @Path("/item/{id}")
-    public Exercise find(@PathParam("id") Integer id) {
-        return dao.findById(id)
+    public Exercise find(@PathParam("id") Long id) {
+        return exerciseStore.findById(id)
     }
 
     @Timed
     @GET @Path("/all")
-    public List<Exercise> all(@PathParam("id") Integer id) {
-        return dao.all()
+    public List<Exercise> all() {
+        return exerciseStore.all()
     }
 }

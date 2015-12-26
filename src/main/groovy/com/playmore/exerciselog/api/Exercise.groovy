@@ -3,11 +3,16 @@ package com.playmore.exerciselog.api
 import com.fasterxml.jackson.annotation.JsonProperty
 
 public class Exercise {
-    @JsonProperty public final int id
-    @JsonProperty public final String name
+    private long id
+    private String name
 
-    public Exercise(int id, String name) {
-        this.id = id
-        this.name = name
+    @JsonProperty
+    long getId() {
+        return id
+    }
+
+    @JsonProperty
+    String getName() {
+        return name
     }
 }

@@ -1,8 +1,8 @@
 package com.playmore.exerciselog
 
 import com.playmore.exerciselog.health.DefaultHealthCheck
+import com.playmore.exerciselog.jdbi.ExerciseStore
 import com.playmore.exerciselog.resources.ExerciseResource
-import com.playmore.exerciselog.resources.WorkoutResource
 import groovy.util.logging.Slf4j
 import io.dropwizard.Application
 import io.dropwizard.jdbi.DBIFactory
@@ -28,11 +28,7 @@ class ExerciseLogApplication extends Application<AppConfiguration> {
         environment.healthChecks().register("default", healthCheck)
 
         // resources
-        final WorkoutResource workoutResource = new WorkoutResource(
-                '5x5 back squats'
-        )
-        environment.jersey().register(workoutResource)
-        environment.jersey().register(new ExerciseResource(dbi))
+        environment.jersey().register(new ExerciseResource(dbi.onDemand(ExerciseStore)))
 
     }
 }

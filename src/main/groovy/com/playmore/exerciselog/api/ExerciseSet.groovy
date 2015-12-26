@@ -3,14 +3,12 @@ package com.playmore.exerciselog.api
 import com.fasterxml.jackson.annotation.JsonProperty
 
 import java.time.Duration
-import java.time.LocalDateTime
 
-class Workout {
+class ExerciseSet {
     private long id
-    private String name
-    private LocalDateTime date
+    private Integer repetitions
     private Duration duration
-    private List<ExerciseSeries> exercises
+    private Double pounds
 
     @JsonProperty
     long getId() {
@@ -18,13 +16,8 @@ class Workout {
     }
 
     @JsonProperty
-    String getName() {
-        return name
-    }
-
-    @JsonProperty
-    LocalDateTime getDate() {
-        return date
+    Integer getRepetitions() {
+        return repetitions
     }
 
     @JsonProperty
@@ -33,7 +26,7 @@ class Workout {
     }
 
     @JsonProperty
-    List<ExerciseSeries> getExercises() {
-        return exercises
+    Double getPounds() {
+        return pounds
     }
 }

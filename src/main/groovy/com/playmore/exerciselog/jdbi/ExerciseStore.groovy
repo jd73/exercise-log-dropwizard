@@ -9,13 +9,13 @@ import org.skife.jdbi.v2.sqlobject.SqlUpdate
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper
 
 @RegisterMapper(ExerciseMapper)
-interface ExerciseDao {
+interface ExerciseStore {
     @SqlUpdate("insert into exercise (name) values (:name)")
     @GetGeneratedKeys
     int insert(@Bind("name") String name)
 
     @SqlQuery("select * from exercise where id = :id")
-    Exercise findById(@Bind("id") int id)
+    Exercise findById(@Bind("id") long id)
 
     @SqlQuery("select * from exercise")
     List<Exercise> all()
