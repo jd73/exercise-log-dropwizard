@@ -5,6 +5,9 @@ import com.playmore.exerciselog.jdbi.ExerciseStore
 import com.playmore.exerciselog.resources.ExerciseResource
 import groovy.util.logging.Slf4j
 import io.dropwizard.Application
+import io.dropwizard.db.DataSourceFactory
+import io.dropwizard.flyway.FlywayBundle
+import io.dropwizard.flyway.FlywayFactory
 import io.dropwizard.java8.Java8Bundle
 import io.dropwizard.java8.jdbi.DBIFactory
 import io.dropwizard.setup.Bootstrap
@@ -21,6 +24,18 @@ class ExerciseLogApplication extends Application<AppConfiguration> {
     @Override
     void initialize(Bootstrap<AppConfiguration> bootstrap) {
         bootstrap.addBundle(new Java8Bundle())
+        bootstrap.addBundle(new FlywayBundle<AppConfiguration>() {
+            @Override
+            DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
+                return configuration.getDataSourceFactory()
+            }
+
+            @Override
+            FlywayFactory getFlywayFactory(AppConfiguration configuration) {
+                return configuration.getFlywayFactory()
+            }
+        })
+
     }
 
     @Override
