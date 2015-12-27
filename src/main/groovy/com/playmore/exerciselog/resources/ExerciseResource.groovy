@@ -11,7 +11,7 @@ import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 
-@Path("/exercise")
+@Path("/exercises")
 @Produces(MediaType.APPLICATION_JSON)
 public class ExerciseResource {
     private final ExerciseStore exerciseStore
@@ -21,19 +21,19 @@ public class ExerciseResource {
     }
 
     @Timed
-    @POST @Path("/add")
+    @POST
     public Optional<Exercise> add(String name) {
         return find(exerciseStore.insert(name))
     }
 
     @Timed
-    @GET @Path("/item/{id}")
+    @GET @Path("/{id}")
     public Optional<Exercise> find(@PathParam("id") Long id) {
         return exerciseStore.findById(id)
     }
 
     @Timed
-    @GET @Path("/all")
+    @GET
     public List<Exercise> all() {
         return exerciseStore.all()
     }
