@@ -22,13 +22,13 @@ public class ExerciseResource {
 
     @Timed
     @POST @Path("/add")
-    public Exercise add(String name) {
+    public Optional<Exercise> add(String name) {
         return find(exerciseStore.insert(name))
     }
 
     @Timed
     @GET @Path("/item/{id}")
-    public Exercise find(@PathParam("id") Long id) {
+    public Optional<Exercise> find(@PathParam("id") Long id) {
         return exerciseStore.findById(id)
     }
 

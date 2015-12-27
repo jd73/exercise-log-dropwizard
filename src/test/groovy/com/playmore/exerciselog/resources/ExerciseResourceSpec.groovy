@@ -18,13 +18,13 @@ class ExerciseResourceSpec extends Specification {
         Exercise expected = new Exercise()
 
         when:
-        Exercise result = resource.find(id)
+        Optional<Exercise> result = resource.find(id)
 
         then:
-        1 * resource.exerciseStore.findById(id) >> expected
+        1 * resource.exerciseStore.findById(id) >> Optional.of(expected)
         0 * _
 
-        result == expected
+        result.get() == expected
 
     }
 }

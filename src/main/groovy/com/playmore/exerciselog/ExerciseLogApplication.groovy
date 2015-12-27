@@ -5,7 +5,9 @@ import com.playmore.exerciselog.jdbi.ExerciseStore
 import com.playmore.exerciselog.resources.ExerciseResource
 import groovy.util.logging.Slf4j
 import io.dropwizard.Application
-import io.dropwizard.jdbi.DBIFactory
+import io.dropwizard.java8.Java8Bundle
+import io.dropwizard.java8.jdbi.DBIFactory
+import io.dropwizard.setup.Bootstrap
 import io.dropwizard.setup.Environment
 import org.skife.jdbi.v2.DBI
 
@@ -14,6 +16,11 @@ class ExerciseLogApplication extends Application<AppConfiguration> {
 
     static void main(final String[] args) throws Exception {
         new ExerciseLogApplication().run(args)
+    }
+
+    @Override
+    void initialize(Bootstrap<AppConfiguration> bootstrap) {
+        bootstrap.addBundle(new Java8Bundle())
     }
 
     @Override
