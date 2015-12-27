@@ -1,9 +1,11 @@
 package com.playmore.exerciselog.api
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.playmore.exerciselog.annotations.ApiEntity
 
 import java.time.Duration
 
+@ApiEntity
 class ExerciseSet {
     private long id
     private Integer repetitions

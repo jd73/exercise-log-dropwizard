@@ -10,6 +10,7 @@ import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 
 @Path("/exercises")
 @Produces(MediaType.APPLICATION_JSON)
@@ -22,8 +23,11 @@ public class ExerciseResource {
 
     @Timed
     @POST
-    public Optional<Exercise> add(String name) {
-        return find(exerciseStore.insert(name))
+    public Response add(String name) {
+        return Response
+                .status(Response.Status.CREATED)
+                .entity(find(exerciseStore.insert(name)))
+                .build()
     }
 
     @Timed

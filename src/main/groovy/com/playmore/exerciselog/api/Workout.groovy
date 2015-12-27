@@ -1,10 +1,12 @@
 package com.playmore.exerciselog.api
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.playmore.exerciselog.annotations.ApiEntity
 
 import java.time.Duration
 import java.time.LocalDateTime
 
+@ApiEntity
 class Workout {
     private long id
     private String name
