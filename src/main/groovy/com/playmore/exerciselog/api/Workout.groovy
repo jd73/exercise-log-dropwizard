@@ -12,7 +12,7 @@ class Workout {
     private String name
     private LocalDateTime date
     private Duration duration
-    private List<ExerciseSeries> exercises
+    private List<Exercise> exercises
 
     @JsonProperty
     long getId() {
@@ -35,7 +35,7 @@ class Workout {
     }
 
     @JsonProperty
-    List<ExerciseSeries> getExercises() {
+    List<Exercise> getExercises() {
         return exercises
     }
 }
