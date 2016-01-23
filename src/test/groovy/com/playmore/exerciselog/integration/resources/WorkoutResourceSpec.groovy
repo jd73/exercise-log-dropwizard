@@ -3,7 +3,7 @@ package com.playmore.exerciselog.integration.resources
 import com.playmore.exerciselog.AppConfiguration
 import com.playmore.exerciselog.ExerciseLogApplication
 import com.playmore.exerciselog.api.Workout
-import com.playmore.exerciselog.jdbi.GenericTypes
+import com.playmore.exerciselog.jdbi.helper.GenericTypes
 import io.dropwizard.client.JerseyClientBuilder
 import io.dropwizard.db.DataSourceFactory
 import io.dropwizard.testing.DropwizardTestSupport

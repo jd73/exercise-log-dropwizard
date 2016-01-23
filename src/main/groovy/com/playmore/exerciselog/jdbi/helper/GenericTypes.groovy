@@ -1,4 +1,4 @@
-package com.playmore.exerciselog.jdbi
+package com.playmore.exerciselog.jdbi.helper
 
 import com.playmore.exerciselog.api.Exercise
 import com.playmore.exerciselog.api.Workout

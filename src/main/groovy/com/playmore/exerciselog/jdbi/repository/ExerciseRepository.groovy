@@ -1,4 +1,4 @@
-package com.playmore.exerciselog.jdbi
+package com.playmore.exerciselog.jdbi.repository
 
 import com.playmore.exerciselog.api.Exercise
 import com.playmore.exerciselog.jdbi.mapper.ExerciseMapper
@@ -10,7 +10,7 @@ import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper
 import org.skife.jdbi.v2.sqlobject.customizers.SingleValueResult
 
 @RegisterMapper(ExerciseMapper)
-interface ExerciseStore {
+interface ExerciseRepository {
     @SqlUpdate("insert into exercise (name) values (:name)")
     @GetGeneratedKeys
     int insert(@Bind("name") String name)

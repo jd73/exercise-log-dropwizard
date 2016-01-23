@@ -1,0 +1,5 @@
+CREATE TABLE WORKOUT_EXERCISE (
+  workout_id INTEGER REFERENCES WORKOUT (id),
+  exercise_id INTEGER REFERENCES EXERCISE (id),
+  PRIMARY KEY(workout_id, exercise_id)
+);

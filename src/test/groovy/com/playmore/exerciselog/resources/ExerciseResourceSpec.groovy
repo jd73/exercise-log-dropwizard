@@ -1,7 +1,7 @@
 package com.playmore.exerciselog.resources
 
 import com.playmore.exerciselog.api.Exercise
-import com.playmore.exerciselog.jdbi.ExerciseStore
+import com.playmore.exerciselog.jdbi.repository.ExerciseRepository
 import spock.lang.Specification
 
 import javax.ws.rs.core.Response
@@ -11,7 +11,7 @@ class ExerciseResourceSpec extends Specification {
     ExerciseResource resource
 
     void setup() {
-        resource = new ExerciseResource(Mock(ExerciseStore))
+        resource = new ExerciseResource(Mock(ExerciseRepository))
     }
 
     void 'list gets all exercises from the store and returns them'() {

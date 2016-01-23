@@ -1,7 +1,7 @@
 package com.playmore.exerciselog.resources
 
 import com.playmore.exerciselog.api.Workout
-import com.playmore.exerciselog.jdbi.WorkoutStore
+import com.playmore.exerciselog.jdbi.dao.WorkoutDao
 import spock.lang.Specification
 
 import javax.ws.rs.core.Response
@@ -11,7 +11,7 @@ class WorkoutResourceSpec extends Specification {
     WorkoutResource resource
 
     void setup() {
-        resource = new WorkoutResource(Mock(WorkoutStore))
+        resource = new WorkoutResource(Mock(WorkoutDao))
     }
 
     void 'list gets all workouts from the store and returns them'() {
@@ -35,13 +35,13 @@ class WorkoutResourceSpec extends Specification {
         given:
         String name = 'some workout'
         Long id = 1L
-        Workout expected = new Workout()
+        Workout expected = new Workout(name: name)
 
         when:
         Response response = resource.add(name)
 
         then:
-        1 * resource.workoutStore.insert(name) >> id
+        1 * resource.workoutStore.insert(expected) >> id
         1 * resource.workoutStore.findById(id) >> Optional.of(expected)
         0 * _
 

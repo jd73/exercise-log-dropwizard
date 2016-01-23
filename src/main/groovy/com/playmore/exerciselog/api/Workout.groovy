@@ -5,12 +5,12 @@ import com.playmore.exerciselog.annotations.ApiEntity
 
 @ApiEntity
 class Workout {
-    private long id
+    Long id
     private String name
     private List<Exercise> exercises
 
     @JsonProperty
-    long getId() {
+    Long getId() {
         return id
     }
 
@@ -22,5 +22,9 @@ class Workout {
     @JsonProperty
     List<Exercise> getExercises() {
         return exercises
+    }
+
+    void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises
     }
 }

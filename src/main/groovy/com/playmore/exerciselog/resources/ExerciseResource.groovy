@@ -2,7 +2,7 @@ package com.playmore.exerciselog.resources
 
 import com.codahale.metrics.annotation.Timed
 import com.playmore.exerciselog.api.Exercise
-import com.playmore.exerciselog.jdbi.ExerciseStore
+import com.playmore.exerciselog.jdbi.repository.ExerciseRepository
 
 import javax.ws.rs.GET
 import javax.ws.rs.POST
@@ -15,9 +15,9 @@ import javax.ws.rs.core.Response
 @Path("/exercises")
 @Produces(MediaType.APPLICATION_JSON)
 public class ExerciseResource {
-    private final ExerciseStore exerciseStore
+    private final ExerciseRepository exerciseStore
 
-    ExerciseResource(ExerciseStore exerciseStore) {
+    ExerciseResource(ExerciseRepository exerciseStore) {
         this.exerciseStore = exerciseStore
     }
 

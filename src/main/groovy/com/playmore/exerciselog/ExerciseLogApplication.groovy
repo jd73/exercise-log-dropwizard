@@ -1,8 +1,10 @@
 package com.playmore.exerciselog
 
 import com.playmore.exerciselog.health.DefaultHealthCheck
-import com.playmore.exerciselog.jdbi.ExerciseStore
-import com.playmore.exerciselog.jdbi.WorkoutStore
+import com.playmore.exerciselog.jdbi.dao.WorkoutExerciseDao
+import com.playmore.exerciselog.jdbi.repository.ExerciseRepository
+import com.playmore.exerciselog.jdbi.dao.WorkoutDao
+import com.playmore.exerciselog.jdbi.repository.WorkoutRepository
 import com.playmore.exerciselog.resources.ExerciseResource
 import com.playmore.exerciselog.resources.WorkoutResource
 import groovy.util.logging.Slf4j
@@ -51,9 +53,22 @@ class ExerciseLogApplication extends Application<AppConfiguration> {
         final DefaultHealthCheck healthCheck = new DefaultHealthCheck()
         environment.healthChecks().register("default", healthCheck)
 
-        // resources
-        environment.jersey().register(new ExerciseResource(dbi.onDemand(ExerciseStore)))
-        environment.jersey().register(new WorkoutResource(dbi.onDemand(WorkoutStore)))
+        // data access
+        WorkoutDao workoutDao = dbi.onDemand(WorkoutDao)
+        WorkoutExerciseDao workoutExerciseDao = dbi.onDemand(WorkoutExerciseDao)
 
+        ExerciseRepository exerciseRepository = dbi.onDemand(ExerciseRepository)
+        WorkoutRepository workoutRepository = new WorkoutRepository(
+                workoutDao,
+                workoutExerciseDao,
+                exerciseRepository
+        )
+
+        // resources
+        environment.jersey().register(new ExerciseResource(exerciseRepository))
+        environment.jersey().register(new WorkoutResource(
+                workoutRepository,
+                exerciseRepository
+        ))
     }
 }
