@@ -3,7 +3,7 @@ package com.playmore.exerciselog.api.associations
 import com.playmore.exerciselog.annotations.ApiEntity
 
 @ApiEntity
-class WorkoutExercise {
+class WorkoutExerciseAssociation {
     Long exerciseId
     Long workoutId
 }

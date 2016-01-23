@@ -27,8 +27,6 @@ public class WorkoutResource {
     @Timed
     @POST
     public Response add(Workout workout) {
-        workout.exercises = workout.exercises*.id.collect { exerciseRepository.findById(it) }*.orElse(null).grep()
-
         return Response
                 .status(Response.Status.CREATED)
                 .entity(workoutRepository.save(workout))

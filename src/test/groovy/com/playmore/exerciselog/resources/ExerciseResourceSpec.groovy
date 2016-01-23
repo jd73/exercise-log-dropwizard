@@ -35,17 +35,17 @@ class ExerciseResourceSpec extends Specification {
         given:
         String name = 'some exercise'
         Long id = 1L
-        Exercise expected = new Exercise()
+        Exercise exercise = new Exercise(name: name)
 
         when:
         Response response = resource.add(name)
 
         then:
-        1 * resource.exerciseStore.insert(name) >> id
-        1 * resource.exerciseStore.findById(id) >> Optional.of(expected)
+        1 * resource.exerciseStore.insert(exercise) >> id
+        1 * resource.exerciseStore.findById(id) >> Optional.of(exercise)
         0 * _
 
-        (response.entity as Optional).get() == expected
+        (response.entity as Optional).get() == exercise
     }
 
     void 'find gets an exercise by id and returns it'() {

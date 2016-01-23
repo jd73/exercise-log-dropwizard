@@ -2,7 +2,7 @@ package com.playmore.exerciselog.jdbi.repository
 
 import com.playmore.exerciselog.api.Exercise
 import com.playmore.exerciselog.api.Workout
-import com.playmore.exerciselog.api.associations.WorkoutExercise
+import com.playmore.exerciselog.api.associations.WorkoutExerciseAssociation
 import com.playmore.exerciselog.jdbi.dao.WorkoutDao
 import com.playmore.exerciselog.jdbi.dao.WorkoutExerciseDao
 
@@ -42,12 +42,13 @@ class WorkoutRepository {
     }
 
     private void saveExercises(Workout workout) {
-        List<Exercise> exercises = workout.exercises
+        workout.exercises.each { Exercise exercise ->
+            Optional<Exercise> existing = exerciseRepository.findByName(exercise.name)
+            Long exerciseId = existing.isPresent() ? existing.get().id : exerciseRepository.insert(exercise)
 
-        exercises.each { Exercise exercise ->
-            WorkoutExercise relation = new WorkoutExercise(
+            WorkoutExerciseAssociation relation = new WorkoutExerciseAssociation(
                     workoutId: workout.id,
-                    exerciseId: exercise.id
+                    exerciseId: exerciseId
             )
 
             workoutExerciseDao.insert(relation)
@@ -55,11 +56,11 @@ class WorkoutRepository {
     }
 
     private void populateExercises(Workout workout) {
-        List<WorkoutExercise> workoutExerciseList = workoutExerciseDao.findByWorkoutId(workout.id)
+        List<WorkoutExerciseAssociation> workoutExerciseList = workoutExerciseDao.findByWorkoutId(workout.id)
 
-        workout.exercises = workoutExerciseList.collect { WorkoutExercise workoutExercise ->
+        workout.exercises = workoutExerciseList.collect { WorkoutExerciseAssociation workoutExercise ->
             Optional<Exercise> exercise = exerciseRepository.findById(workoutExercise.exerciseId)
-            return exercise.get()
+            return exercise.orElse(null)
         }.grep()
     }
 }

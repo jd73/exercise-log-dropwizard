@@ -24,9 +24,10 @@ public class ExerciseResource {
     @Timed
     @POST
     public Response add(String name) {
+        Exercise exercise = new Exercise(name: name)
         return Response
                 .status(Response.Status.CREATED)
-                .entity(find(exerciseStore.insert(name)))
+                .entity(find(exerciseStore.insert(exercise)))
                 .build()
     }
 

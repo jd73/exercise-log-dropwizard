@@ -2,6 +2,7 @@ package com.playmore.exerciselog.integration.resources
 
 import com.playmore.exerciselog.AppConfiguration
 import com.playmore.exerciselog.ExerciseLogApplication
+import com.playmore.exerciselog.api.Exercise
 import com.playmore.exerciselog.api.Workout
 import com.playmore.exerciselog.jdbi.helper.GenericTypes
 import io.dropwizard.client.JerseyClientBuilder
@@ -43,20 +44,20 @@ class WorkoutResourceSpec extends Specification {
     void 'Should be able to create, get and list an workout'() {
         given:
         Client client = new JerseyClientBuilder(testSupport.getEnvironment()).build("test client")
-
-        Workout expected = workout()
+        Workout workout = workout()
 
         when:
         Response postResponse = client
                 .target(resourcePath)
                 .request()
-                .post(Entity.json(expected))
+                .post(Entity.json(workout))
 
         Workout postWorkout = postResponse.readEntity(Workout)
 
         then:
         postResponse.status == 201
-        postWorkout == expected
+        postWorkout.name == workout.name
+        postWorkout.exercises == workout.exercises
 
         when:
         Response getResponse = client
@@ -68,7 +69,8 @@ class WorkoutResourceSpec extends Specification {
 
         then:
         getResponse.status == 200
-        getWorkout == expected
+        getWorkout.name == workout.name
+        getWorkout.exercises == workout.exercises
 
         when:
         Response listResponse = client
@@ -80,13 +82,16 @@ class WorkoutResourceSpec extends Specification {
 
         then:
         listResponse.status == 200
-        workouts.contains(expected)
+        workouts.find { it.name == workout.name && it.exercises == workout.exercises }
     }
 
     Workout workout() {
         return new Workout(
-                id: 123L,
-                name: 'Test workout'
+                name: 'Test workout',
+                exercises: [
+                        new Exercise(name: 'Exercise one'),
+                        new Exercise(name: 'Exercise two')
+                ]
         )
     }
 }
